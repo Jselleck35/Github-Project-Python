@@ -1,0 +1,93 @@
+Python Movielens Project Source Code
+
+import pandas as pd
+import numpy as np
+movies_dataset = pd.read_table('C:\\Data Science with Python\\Project\\movies.dat', sep='::',
+                               names=['MovieID','Title', 'Genres'])
+movies_dataset.shape
+movies_dataset.head()
+users_dataset = pd.read_table('C:\\Data Science with Python\\Project\\users.dat', sep='::',
+                              names=['UserID', 'Gender','Age','Occupation', 'Zip-code'])
+users_dataset.head()
+ratings_dataset = pd.read_table('C:\\Data Science with Python\\Project\\ratings.dat', sep='::',
+                                names=['UserID', 'MovieID', 'Rating', 'Timestamp'])
+ratings_dataset.head()
+import matplotlib.pyplot as plt
+from matplotlib import style
+%matplotlib inline
+import seaborn as sns
+
+# show age distribution
+sns.set()
+plt.hist(users_dataset['Age'], bins=12)
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+plt.title('Age Distribution of Users')
+Plt.show
+
+# show rating distribution
+plt.hist(ratings_dataset['Rating'])
+plt.xlabel('Rating')
+plt.ylabel('Frequency')
+plt.title('Overall Rating by Users')
+Plt.show
+df_movieID=pd.merge(ratings_dataset,movies_dataset, on='MovieID')
+df_toystory = df_movieID[df_movieID['Title']=='Toy Story (1995)']
+df_toystory
+
+# show user rating of toy story
+plt.hist(df_toystory['Rating'])
+plt.xlabel('Rating')
+plt.ylabel('Frequency')
+plt.title('User Ratings of Toy Story')
+Plt.show
+df_toystoryusers=pd.merge(df_toystory,users_dataset, on='UserID')
+
+# show age viewership of toystory
+plt.hist(df_toystoryusers['Age'], bins=12)
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+plt.title('Toy Story viewership by Age')
+Plt.show
+df_all = pd.merge(df_movieID, users_dataset)
+
+# shows the top 25 movies by viewership rating
+Movieviews = df_movieID.groupby('Title').size().sort_values(ascending=False).head(25)
+Movieviews
+usergrp = ratings_dataset.groupby('UserID')
+user2696 = usergrp.get_group(2696)
+User2696
+
+# show rating data by user 2696
+plt.hist(user2696['Rating'])
+plt.xlabel('Rating')
+plt.ylabel('Frequency')
+plt.title('Rating data of User 2696')
+Plt.show
+
+df_userandrating=pd.merge(ratings_dataset,users_dataset, on='UserID').head(500)
+df_userandrating
+x_feature = df_userandrating[['MovieID','Occupation','Age']]
+x_feature.head()
+y_target = df_userandrating[['Rating']]
+x_feature.shape
+y_target.shape
+from sklearn.cross_validation import train_test_split
+x_train, x_test, y_train, y_test = train_test_split(x_feature, y_target,random_state=1)
+print x_train.shape
+print y_train.shape
+print x_test.shape
+print y_test.shape
+from sklearn.linear_model import LinearRegression
+linreg = LinearRegression()
+linreg.fit(x_train,y_train)
+print linreg.intercept_
+print linreg.coef_
+y_pred = linreg.predict(x_test)
+y_pred
+from sklearn import metrics
+print 'MSE value is %.2f '% np.sqrt(metrics.mean_squared_error(y_test,y_pred))
+x_test.hist()
+plt.show()
+x_train.hist()
+plt.show()
