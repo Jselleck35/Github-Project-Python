@@ -1,4 +1,10 @@
-Python Movielens Project Source Code
+Python Movielens Dataset Analysis
+
+# 1. Data acquisition of the movielens dataset 
+# - users dataset 
+# - rating dataset 
+# - movies dataset 
+
 
 import pandas as pd
 import numpy as np
@@ -17,7 +23,10 @@ from matplotlib import style
 %matplotlib inline
 import seaborn as sns
 
-# show age distribution
+# 2. Perform the Exploratory Data Analysis (EDA) for the users dataset 
+
+# Visualize age distribution
+
 sns.set()
 plt.hist(users_dataset['Age'], bins=12)
 plt.xlabel('Age')
@@ -25,17 +34,20 @@ plt.ylabel('Frequency')
 plt.title('Age Distribution of Users')
 Plt.show
 
-# show rating distribution
+# Visualize overall rating by users
+
 plt.hist(ratings_dataset['Rating'])
 plt.xlabel('Rating')
 plt.ylabel('Frequency')
 plt.title('Overall Rating by Users')
 Plt.show
+
+# Find and visualize the user rating of the movie "Toy Story"
+
 df_movieID=pd.merge(ratings_dataset,movies_dataset, on='MovieID')
 df_toystory = df_movieID[df_movieID['Title']=='Toy Story (1995)']
 df_toystory
 
-# show user rating of toy story
 plt.hist(df_toystory['Rating'])
 plt.xlabel('Rating')
 plt.ylabel('Frequency')
@@ -43,7 +55,8 @@ plt.title('User Ratings of Toy Story')
 Plt.show
 df_toystoryusers=pd.merge(df_toystory,users_dataset, on='UserID')
 
-# show age viewership of toystory
+# Find and visualize the viewership of the movie "Toy Story" by age group
+
 plt.hist(df_toystoryusers['Age'], bins=12)
 plt.xlabel('Age')
 plt.ylabel('Frequency')
@@ -51,20 +64,27 @@ plt.title('Toy Story viewership by Age')
 Plt.show
 df_all = pd.merge(df_movieID, users_dataset)
 
-# shows the top 25 movies by viewership rating
+# Find and visualize the top 25 movies by viewership rating
+
 Movieviews = df_movieID.groupby('Title').size().sort_values(ascending=False).head(25)
 Movieviews
 usergrp = ratings_dataset.groupby('UserID')
 user2696 = usergrp.get_group(2696)
 User2696
 
-# show rating data by user 2696
+# Find the rating for a particular user of user id = 2696
+
 plt.hist(user2696['Rating'])
 plt.xlabel('Rating')
 plt.ylabel('Frequency')
 plt.title('Rating data of User 2696')
 Plt.show
 
+#3. Perform machine learning on first 500 extracted records using;
+ # - movie id
+ # - age
+ # - occupation
+ 
 df_userandrating=pd.merge(ratings_dataset,users_dataset, on='UserID').head(500)
 df_userandrating
 x_feature = df_userandrating[['MovieID','Occupation','Age']]
