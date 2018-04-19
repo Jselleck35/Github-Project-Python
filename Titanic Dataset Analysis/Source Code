@@ -1,0 +1,95 @@
+import pandas as pd
+from pandas import Series, DataFrame
+
+train_df = pd.read_csv('C:\\Data Science with SAS\\Datasets\\train.csv')
+test_df = pd.read_csv('C:\\Data Science with SAS\\Datasets\\test.csv')
+
+#EDA
+import matplotlib.pyplot as plt
+%matplotlib inline
+import numpy as np
+import seaborn as sns
+
+# Explore data for passengers age distribution
+plt.figure(figsize=(10,8))
+train_df['Age'].hist(bins=70)
+plt.title('Age Distribution of Passengers')
+plt.xlabel('Age')
+plt.ylabel('Number of Passengers')
+plt.show()
+
+#Explore data for passengers survival by age
+plt.figure(figsize=(14,10))
+plt.scatter(train_df.Survived,train_df.Age,alpha=0.55)
+plt.ylabel('Age')
+plt.grid(b=True, which='major', axis='y')
+plt.title('Survival by Age (1=Survided)')
+plt.show()
+
+#Explore data for surivival breakdown
+plt.figure(figsize=(8,6))
+train_df.Survived.value_counts().plot(kind='barh', color='blue', alpha=.65)
+plt.title('Survival Breakdown (1=Survived, 0=Died)')
+plt.show()
+
+#Explore data for passengers Class distribution
+plt.figure(figsize=(10,8))
+train_df.Pclass.value_counts().plot(kind='barh', color='green', alpha=.65)
+plt.title('Class Distribution')
+plt.show()
+
+#Explore data for passengers embarkment by location
+plt.figure(figsize=(8,6))
+train_df.Embarked.value_counts().plot(kind='bar', color='red', alpha=.5)
+plt.title('Passengers embarkment by Location')
+plt.show()
+
+#function to load train data file
+def load_titanic_train_file():
+    titanic_train_df = pd.read_csv('C:\\Data Science with SAS\\Datasets\\train.csv')
+    cols = ["Pclass", "Sex", "Age"]
+    titanic_train_df["Sex"] = titanic_train_df["Sex"].apply(lambda sex:1 if sex=="male" else 0)
+    titanic_train_df["Age"] = titanic_train_df["Age"].fillna(titanic_train_df["Age"].mean())
+    titanic_train_df["Fare"] = titanic_train_df["Fare"].fillna(titanic_train_df["Fare"].mean())
+    survived = titanic_train_df["Survived"].values
+    data = titanic_train_df[cols].values
+    return survived, data
+    
+#funtion to load test data file
+def load_titanic_test_file():
+    titanic_test_df = pd.read_csv('C:\\Data Science with SAS\\Datasets\\test.csv')
+    cols = ["Pclass", "Sex", "Age"]
+    titanic_test_df["Sex"] = titanic_test_df["Sex"].apply(lambda sex:1 if sex=="male" else 0)
+    titanic_test_df["Age"] = titanic_test_df["Age"].fillna(titanic_test_df["Age"].mean())
+    titanic_test_df["Fare"] = titanic_test_df["Fare"].fillna(titanic_test_df["Fare"].mean())
+    data = titanic_test_df[cols].values
+    return data
+    
+#dataset for machine learning
+survived, data_train = load_titanic_train_file()
+data_test = load_titanic_test_file()
+
+from sklearn.linear_model import LogisticRegression
+model = LogisticRegression()
+
+#Fit the data into model
+model.fit(data_train, survived)
+
+#Predict the test data with the model
+predictValues = model.predict(data_test)
+
+#Test dataset for predicting and testing
+new_test_prediction_set = [[1,1,22],[3,0,26],[1,0,38]]
+
+#Test model to predict the outcom from the test dataset
+model.predict(new_test_prediction_set)
+
+import pickle as pkl
+persist_model = pkl.dumps(model)
+
+from sklearn.externals import joblib
+joblib.dump(model,'logRegModelFile.pkl') 
+
+new_model = joblib.load('logRegModelFile.pkl')
+
+new_model.predict(new_test_prediction_set)
