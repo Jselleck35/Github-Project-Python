@@ -1,0 +1,65 @@
+#Stock Market Data Analysis Project
+
+
+import pandas as pd
+import numpy as 
+import matplotlib.pyplot as plt
+import seaborn as sns
+%matplotlib inline
+
+from pandas_datareader import data as pdr
+from datetime import datetime
+import fix_yahoo_finance as yf
+yf.pdr_override()
+
+stock_list = ['AAPL','AMZN','MSFT','GOOG']
+
+end = datetime.now() 
+start = datetime(end.year-1, end.month, end.day)
+for stock_symbol in stock_list:
+    globals() [stock_symbol] = pdr.get_data_yahoo(stock_symbol,start,end)
+    
+AAPL.describe()
+AAPL.info()
+df_AAPL = pd.DataFrame(AAPL['Adj Close'])
+df_AAPL.head()
+df_AAPL.plot(legend=True,figsize=(10,4))
+AAPL['Volume'].plot(legend=True,figsize=(10,4))
+
+plt.figure(figsize=(14,8))
+plt.plot(AAPL['Adj Close'], 'r', label='Apple', linewidth=1)
+plt.plot(AMZN['Adj Close'], 'b', label='Amazon', linewidth=1)
+plt.plot(MSFT['Adj Close'], 'g', label='Microsoft', linewidth=1)
+plt.plot(GOOG['Adj Close'], 'm', label='Google', linewidth=1)
+plt.legend()
+plt.show()
+
+# Daily Return Analysis and Correlation Between Different Stocks
+
+AAPL['Daily Return'] = AAPL['Adj Close'].pct_change()
+AAPL['Daily Return'].plot(figsize=(15,6),legend=True,linestyle='--',marker='o')
+
+closing_price_stock = pdr.get_data_yahoo(stock_list,start,end)['Adj Close']
+closing_price_stock.head()
+stock_returns = closing_price_stock.pct_change()
+
+sns.jointplot('GOOG','AAPL',stock_retunrs,kind='scatter')
+sns.pairplot(stock_returns.dropna())
+
+#Risk Analysis
+
+returns = stock_returns.dropna()
+area = np.pi*20
+plt.figure(figsize=(10,8))
+plt.scatter(returns.mean(),returns.std(),alpha=0.5,s=area)
+
+plt.xlabel('Expected Returns')
+ply.ylabel('Risk')
+for label, x, y, in zip(returns.columns, returns.mean(), returns.std()):
+    plt.annotate(
+    label,
+    xy=(x,y),xytext = (50,50),
+    textcoords = 'offset points', ha = 'center', va = 'bottom',
+    arrowprops = dict(arrowstyle = '-', connectionstyle = 'arc3,rad=-0.3'))
+    
+
