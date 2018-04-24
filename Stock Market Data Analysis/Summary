@@ -1,0 +1,19 @@
+1.Import the financial data of the following companies
+- Apple
+- Amazon
+- Microsoft
+- Google
+
+2. Perform fundamental data analysis
+- Fetch the last one year's data
+- View the values of Apple's stock
+- Display the plot of closing price
+- Display the stock trade by volume
+- Plot all companies' data together for closing prices
+
+3. Perform Daily Return Analysis and show the relationship between different stocks
+- Plot the percentage change plot for Apple's stock
+- Show a joint plot for Apple and Google
+- Use PairPlot to show the correlation between all the stocks
+
+4. Perform risk analysis
