@@ -25,18 +25,18 @@ Steps:
   - Persist the model for future re-use
   
 Here is a detailed description of the given datasets: 
-  PassengerId : ID of passenger
-  Survived    : 0 = No, 1 = Yes
-  Pclass      : Ticket Class 1 = 1st, 2 = 2nd, 3 = 3rd
-  Name        : Name of Passenger
-  Sex         : Sex of Passenger
-  Age         : Age in years
-  SibSp       : # of siblings / spouces aboard the Titanic
-  Parch       : # of parents / children aboard the Titanic
-  Ticket      : Ticket number
-  Fare        : Passenger fare
-  Cabin       : Cabin number
-  Embarked    : Point of Embarkation C = Cherbourg, Q = Queenstown, S = Southampton
+- PassengerId : ID of passenger
+- Survived    : 0 = No, 1 = Yes
+- Pclass      : Ticket Class 1 = 1st, 2 = 2nd, 3 = 3rd
+- Name        : Name of Passenger
+- Sex         : Sex of Passenger
+- Age         : Age in years
+- SibSp       : # of siblings / spouces aboard the Titanic
+- Parch       : # of parents / children aboard the Titanic
+- Ticket      : Ticket number
+- Fare        : Passenger fare
+- Cabin       : Cabin number
+- Embarked    : Point of Embarkation C = Cherbourg, Q = Queenstown, S = Southampton
   
   
   The data for this project can be found at https://www.kaggle.com/c/titanic/data
