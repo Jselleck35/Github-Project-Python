@@ -2,7 +2,7 @@ Movielens Dataset Analysis
 
 Mission: Perform data analysis on three related datasets and apply machine learning to predict a users rating given different features
 
-The steps of this Project are
+The steps of this Project are:
 
 Data acquisition of the movielens dataset
 - users dataset
@@ -123,3 +123,5 @@ year of release)
 - Some MovieIDs do not correspond to a movie due to accidental duplicate
 entries and/or test entries
 - Movies are mostly entered by hand, so errors and inconsistencies may exist
+
+all data can be found at https://movielens.org/
